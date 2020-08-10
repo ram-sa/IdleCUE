@@ -1,9 +1,11 @@
 ﻿using CUE.NET;
 using CUE.NET.Brushes;
+using CUE.NET.Devices.Generic;
 using CUE.NET.Devices.Keyboard;
 using CUE.NET.Devices.Mouse;
 using IdleCUE.Hooks;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,14 +28,25 @@ namespace IdleCUE
 
             CueSDK.Initialize();
 
-            CorsairKeyboard kb = CueSDK.KeyboardSDK;
-            CorsairMouse mouse = CueSDK.MouseSDK;
+            List<AbstractCueDevice> devices = new List<AbstractCueDevice>
+            {
+                CueSDK.KeyboardSDK,
+                CueSDK.HeadsetSDK,
+                CueSDK.HeadsetStandSDK,
+                CueSDK.MouseSDK,
+                CueSDK.MousematSDK
+            };
 
             IBrush brush = new SolidColorBrush(Color.Black);
-            kb.Brush = brush;
-            mouse.Brush = brush;
-            kb.Update();
-            mouse.Update();
+
+            devices.ForEach(device =>
+            {
+                if(device != null)
+                {
+                    device.Brush = brush;
+                    device.Update();
+                }
+            });
 
             Application.Run();
         }
