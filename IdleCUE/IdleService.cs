@@ -13,20 +13,17 @@ namespace IdleCUE
 {
     public class IdleService
     {
-        private readonly MouseHook _mouseHook;
-        private readonly KeyboardHook _keyboardHook;
+        private MouseHook _mouseHook;
+        private KeyboardHook _keyboardHook;
 
-        public IdleService()
+        public void Start()
         {
             _mouseHook = new MouseHook();
             _keyboardHook = new KeyboardHook();
 
             _mouseHook.MouseEvent += OnDeviceEvent;
             _keyboardHook.KeyboardEvent += OnDeviceEvent;
-        }
 
-        public void Start()
-        {
             CueSDK.Initialize();
 
             CorsairKeyboard kb = CueSDK.KeyboardSDK;
